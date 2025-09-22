@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["admin", "customer", "theater owner", "cinema owner"],
+    enum: ["admin", "customer", "theater owner", "movie owner"],
   },
   createdAt: {
     type: Date,
