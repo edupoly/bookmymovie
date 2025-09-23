@@ -13,7 +13,6 @@ const MovieSchema = new mongoose.Schema({
   crew: [String],
   censorCertificate: String,
   posterUrl: String,
-  theaters: [String]
 });
 
 module.exports = mongoose.model('Movie', MovieSchema);

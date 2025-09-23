@@ -1,6 +1,6 @@
 const Show = require('../models/showModel');
-const Movie = require('../models/movieModel');
 const Theater = require('../models/theaterModel');
+const Ticket = require('../models/ticketModel');
 
 // Create Show and update Movie's dates array
 exports.createShow = async (req, res) => {
@@ -13,7 +13,7 @@ exports.createShow = async (req, res) => {
 
         await Theater.findByIdAndUpdate(
             theaterId,
-            { $addToSet: { shows: savedShow._id },movieId }, // $addToSet prevents duplicates
+            { $addToSet: { shows: savedShow._id }, movieId }, // $addToSet prevents duplicates
             { new: true }
         );
 
@@ -66,6 +66,55 @@ exports.deleteShow = async (req, res) => {
             return res.status(404).json({ message: 'Show not found' });
         }
         res.status(200).json({ message: 'Show deleted', data: deleted });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+// Book Ticket
+exports.bookTicket = async (req, res) => {
+    try {
+        console.log("asdfgh");
+
+        const ticketCount = parseInt(req.body.tickets);
+
+        if (isNaN(ticketCount) || ticketCount <= 0) {
+            return res.status(400).json({ message: 'Invalid ticket count' });
+        }
+
+        const bookingShow = await Show.findById(req.params.id);
+
+        if (!bookingShow) {
+            return res.status(404).json({ message: 'Show not found' });
+        }
+
+        if (bookingShow.remainingSeats < ticketCount) {
+            return res.status(400).json({ message: 'Not enough remaining seats available' });
+        }
+
+        
+        const from = bookingShow.filledSeats + 1;
+        const to = bookingShow.filledSeats + ticketCount;
+        const ticket = {
+            userID: req.user.id,
+            seatsBooked: from + "-" + to,
+            bookedAt: new Date(),
+            showTime: bookingShow.showTime,
+            showDate: bookingShow.showDate
+        }
+        bookingShow.bookedSeats.push({...ticket});
+        bookingShow.remainingSeats -= ticketCount;
+        bookingShow.filledSeats = (bookingShow.filledSeats || 0) + ticketCount;
+        
+        await bookingShow.save();
+
+        const bookedTicket = new Ticket(ticket);
+        await bookedTicket.save();
+        
+        res.status(200).json({
+            message: 'Ticket(s) booked successfully',
+            data: ticket
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }

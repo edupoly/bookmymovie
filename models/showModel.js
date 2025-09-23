@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const ShowSchema = new mongoose.Schema({
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   theaterId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   screen: {
@@ -30,9 +30,11 @@ const ShowSchema = new mongoose.Schema({
     default: 100,
   },
   bookedSeats: {
-    type: [Number], // e.g. [1, 5, 10]
+    type: [Object],
     default: [],
-  }
+  },
+  remainingSeats:Number,
+  filledSeats:Number,
 }, {
   timestamps: true,
 });

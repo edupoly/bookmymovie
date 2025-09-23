@@ -37,9 +37,8 @@ const TheaterSchema = new mongoose.Schema({
     type: [String], // e.g., ["3D", "Dolby Atmos", "Wheelchair Accessible"]
     default: [],
   },
-  manager_id: String,
-  movieId: String,
   shows: [String],
+  logo: String,
   createdAt: {
     type: Date,
     default: Date.now,

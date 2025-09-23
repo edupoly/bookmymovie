@@ -1,5 +1,5 @@
 const express = require('express');
-const { createShow, getAllShows, getShowsByMovie, getShowsByTheater, deleteShow } = require('../controllers/showController');
+const { createShow, getAllShows, getShowsByMovie, getShowsByTheater, deleteShow, bookTicket } = require('../controllers/showController');
 const { authorizeRoles, authenticate } = require('../middleware/auth');
 const router = express.Router();
 
@@ -85,7 +85,7 @@ const allowedRoles = 'theater owner';
  *       403:
  *         description: Forbidden - only theater owners allowed
  */
-router.post('/createShow', authenticate, authorizeRoles(...allowedRoles), createShow);
+router.post('/createShow', authenticate, authorizeRoles(allowedRoles), createShow);
 
 /**
  * @swagger
@@ -178,6 +178,9 @@ router.get('/getShowsByTheater/theater/:theaterId', getShowsByTheater);
  *       403:
  *         description: Forbidden - only theater owners allowed
  */
-router.delete('/deleteShow/:id', authenticate, authorizeRoles(...allowedRoles), deleteShow);
+router.delete('/deleteShow/:id', authenticate, authorizeRoles(allowedRoles), deleteShow);
+router.post('/bookingTicketByShowId/:id',authenticate, bookTicket)
+
+
 
 module.exports = router;

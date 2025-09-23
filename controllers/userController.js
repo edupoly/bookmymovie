@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const newUser = new User({ email, number, username, password:hashedPassword,role });
+    const newUser = new User({ email, number, username, password: hashedPassword, role });
     await newUser.save();
 
     res.status(200).json({ message: 'User registered', user: newUser });
@@ -47,36 +47,23 @@ exports.login = async (req, res) => {
 };
 
 exports.getProfile = async (req, res) => {
-  const token = req.params.token;
- 
   try {
-    if (!token) return res.status(401).json({ message: 'Token missing' });
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findById(decoded.id, { password: 0 });
-
-    if (!user) {
-      return res.status(401).json({ message: 'User not found' });
-    }
-
     return res.status(200).json({
       status: 200,
       message: 'Token valid',
-      user,
+      user:req.user,
     });
-
   } catch (err) {
     console.error('Token verification failed:', err.message);
-    return res.status(401).json({ message: 'Invalid token' });
+    return res.status(401).json({ message: 'Invalid or expired token' });
   }
-
 };
+
 
 // Delete User
 exports.deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user.id;
 
     const deletedUser = await User.findByIdAndDelete(userId);
 

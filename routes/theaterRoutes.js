@@ -66,17 +66,9 @@ const allowedRoles = 'theater owner';
  *           items:
  *             type: string
  *           example: ["3D", "Dolby Atmos", "Wheelchair Accessible"]
- *         manager_id:
+ *         logo:
  *           type: string
- *           example: 650a91231a4cf7f8d0e4bc91
- *         movieId:
- *           type: string
- *           example: 651234abcde1234567890abc
- *         shows:
- *           type: array
- *           items:
- *             type: string
- *           example: ["65123a456bcd1234567890ef", "65123a456bcd1234567890f0"]
+ *           example: https://image.png
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -107,7 +99,7 @@ const allowedRoles = 'theater owner';
  *       403:
  *         description: Forbidden – Only theater owners can perform this action
  */
-router.post('/createTheater', authenticate, authorizeRoles(...allowedRoles), createTheater);
+router.post('/createTheater', authenticate, authorizeRoles(allowedRoles), createTheater);
 
 /**
  * @swagger
@@ -138,7 +130,7 @@ router.post('/createTheater', authenticate, authorizeRoles(...allowedRoles), cre
  *       403:
  *         description: Forbidden – Only theater owners can perform this action
  */
-router.put('/updateTheater/:id', authenticate, authorizeRoles(...allowedRoles), updateTheater);
+router.put('/updateTheater/:id', authenticate, authorizeRoles(allowedRoles), updateTheater);
 
 /**
  * @swagger
@@ -163,7 +155,7 @@ router.put('/updateTheater/:id', authenticate, authorizeRoles(...allowedRoles), 
  *       403:
  *         description: Forbidden – Only theater owners can perform this action
  */
-router.delete('/deleteTheater/:id', authenticate, authorizeRoles(...allowedRoles), deleteTheater);
+router.delete('/deleteTheater/:id', authenticate, authorizeRoles(allowedRoles), deleteTheater);
 
 /**
  * @swagger

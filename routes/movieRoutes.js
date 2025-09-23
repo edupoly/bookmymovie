@@ -78,11 +78,6 @@ const allowedRoles = 'movie owner';
  *         posterUrl:
  *           type: string
  *           example: http://example.com/poster.jpg
- *         theaters:
- *           type: array
- *           items:
- *             type: string
- *           example: ["60a123bc4567de890f123abc"]
  */
 
 /**
@@ -109,7 +104,7 @@ const allowedRoles = 'movie owner';
  *       403:
  *         description: Forbidden - only movie owners allowed
  */
-router.post('/createMovie', authenticate, authorizeRoles(...allowedRoles), createMovie);
+router.post('/createMovie', authenticate, authorizeRoles(allowedRoles), createMovie);
 
 /**
  * @swagger
@@ -140,7 +135,7 @@ router.post('/createMovie', authenticate, authorizeRoles(...allowedRoles), creat
  *       403:
  *         description: Forbidden - only movie owners allowed
  */
-router.put('/updateMovie/:id', authenticate, authorizeRoles(...allowedRoles), updateMovie);
+router.put('/updateMovie/:id', authenticate, authorizeRoles(allowedRoles), updateMovie);
 
 /**
  * @swagger
@@ -165,7 +160,7 @@ router.put('/updateMovie/:id', authenticate, authorizeRoles(...allowedRoles), up
  *       403:
  *         description: Forbidden - only movie owners allowed
  */
-router.delete('/deleteMovie/:id', authenticate, authorizeRoles(...allowedRoles), deleteMovie);
+router.delete('/deleteMovie/:id', authenticate, authorizeRoles(allowedRoles), deleteMovie);
 
 /**
  * @swagger

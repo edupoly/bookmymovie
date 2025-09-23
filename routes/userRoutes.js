@@ -6,6 +6,7 @@ const {
   getProfile,
   deleteUser
 } = require('../controllers/userController');
+const { authenticate } = require('../middleware/auth');
 
 /**
  * @swagger
@@ -108,48 +109,54 @@ router.post('/login', login);
 
 /**
  * @swagger
- * /api/users/profile/{token}:
+ * /api/users/profile:
  *   get:
- *     summary: Get user profile using token
+ *     summary: Get the logged-in user's profile
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: token
+ *       - in: header
+ *         name: Authorization
  *         required: true
  *         schema:
  *           type: string
- *         description: JWT or session token
+ *           example: Bearer your_token_here
+ *         description: Bearer token for authentication (use format `Bearer <token>`)
  *     responses:
  *       200:
- *         description: User profile retrieved
+ *         description: User profile retrieved successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       401:
- *         description: Unauthorized or invalid token
+ *         description: Unauthorized - Invalid or missing token
  */
-router.get('/profile/:token', getProfile);
+router.get('/profile', authenticate, getProfile);
 
 /**
  * @swagger
- * /api/users/deleteuser/{id}:
+ * /api/users/deleteuser:
  *   delete:
- *     summary: Delete a user by ID
+ *     summary: Delete a user by authendication
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - in: header
+ *         name: Authorization
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID
+ *           example: Bearer your_token_here
+ *         description: Bearer token for authentication (use format `Bearer <token>`)
  *     responses:
  *       200:
  *         description: User deleted successfully
  *       404:
  *         description: User not found
  */
-router.delete('/deleteuser/:id', deleteUser);
+router.delete('/deleteuser', authenticate, deleteUser);
 
 module.exports = router;
