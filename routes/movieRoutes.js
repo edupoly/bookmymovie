@@ -85,6 +85,13 @@ const allowedRoles = 'movie owner';
  * /api/movies/createMovie:
  *   post:
  *     summary: Create a new movie (movie owner only)
+ *     description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Movies]
  *     security:
  *       - bearerAuth: []
@@ -101,16 +108,26 @@ const allowedRoles = 'movie owner';
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Movie'
+ *       401:
+ *         description: Unauthorized – Token missing or invalid
  *       403:
- *         description: Forbidden - only movie owners allowed
+ *         description: Forbidden – Only users with proper role can create a movie
  */
 router.post('/createMovie', authenticate, authorizeRoles(allowedRoles), createMovie);
+
 
 /**
  * @swagger
  * /api/movies/updateMovie/{id}:
  *   put:
  *     summary: Update an existing movie (movie owner only)
+ *     description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Movies]
  *     security:
  *       - bearerAuth: []
@@ -142,6 +159,13 @@ router.put('/updateMovie/:id', authenticate, authorizeRoles(allowedRoles), updat
  * /api/movies/deleteMovie/{id}:
  *   delete:
  *     summary: Delete a movie (movie owner only)
+ *     description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Movies]
  *     security:
  *       - bearerAuth: []

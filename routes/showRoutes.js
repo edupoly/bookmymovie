@@ -66,6 +66,13 @@ const allowedRoles = 'theater owner';
  * /api/shows/createShow:
  *   post:
  *     summary: Create a new show (theater owner only)
+ *     description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Shows]
  *     security:
  *       - bearerAuth: []
@@ -160,6 +167,13 @@ router.get('/getShowsByTheater/theater/:theaterId', getShowsByTheater);
  * /api/shows/deleteShow/{id}:
  *   delete:
  *     summary: Delete a show by ID (theater owner only)
+ *      description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Shows]
  *     security:
  *       - bearerAuth: []
@@ -179,7 +193,7 @@ router.get('/getShowsByTheater/theater/:theaterId', getShowsByTheater);
  *         description: Forbidden - only theater owners allowed
  */
 router.delete('/deleteShow/:id', authenticate, authorizeRoles(allowedRoles), deleteShow);
-router.post('/bookingTicketByShowId/:id',authenticate, bookTicket)
+router.post('/bookingTicketByShowId/:id', authenticate, bookTicket)
 
 
 

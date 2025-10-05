@@ -24,6 +24,29 @@ const options = {
     info: {
       title: 'Book My Movie',
       version: '1.0.0',
+      description: `
+## 🔐 Authentication - Bearer Token Required
+
+This API uses **JWT Bearer Token** for authentication.
+
+To access protected routes, include this header:
+
+\`\`\`
+Authorization: Bearer <your_token>
+\`\`\`
+
+### How to Use in Swagger UI
+
+1. Click the **"Authorize"** button at the top-right of the page.
+2. Enter your token like this:
+
+   \`\`\`
+   Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6...
+   \`\`\`
+
+3. Click **Authorize** and then close the modal.
+4. Now you can make authorized API requests directly from Swagger UI.
+      `,
     },
     servers: [
       {
@@ -46,8 +69,9 @@ const options = {
       { name: 'Shows', description: 'Operations about shows' },
     ],
   },
-  apis: ['./routes/*.js'], // adjust if needed
+  apis: ['./routes/*.js'],
 };
+
 
 const swaggerSpec = swaggerJSDoc(options)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))

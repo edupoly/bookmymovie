@@ -21,6 +21,11 @@ const allowedRoles = 'theater owner';
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Theater:
  *       type: object
@@ -80,6 +85,13 @@ const allowedRoles = 'theater owner';
  * /api/theaters/createTheater:
  *   post:
  *     summary: Create a new theater (theater owner only)
+ *     description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Theaters]
  *     security:
  *       - bearerAuth: []
@@ -106,6 +118,13 @@ router.post('/createTheater', authenticate, authorizeRoles(allowedRoles), create
  * /api/theaters/updateTheater/{id}:
  *   put:
  *     summary: Update a theater (theater owner only)
+ *     description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Theaters]
  *     security:
  *       - bearerAuth: []
@@ -137,6 +156,13 @@ router.put('/updateTheater/:id', authenticate, authorizeRoles(allowedRoles), upd
  * /api/theaters/deleteTheater/{id}:
  *   delete:
  *     summary: Delete a theater (theater owner only)
+ *     description: |
+ *       Requires a valid **JWT Bearer Token** in the `Authorization` header.
+
+ *       Example header:
+ *       ```
+ *       Authorization: Bearer <your_token>
+ *       ```
  *     tags: [Theaters]
  *     security:
  *       - bearerAuth: []

@@ -4,7 +4,6 @@ const User = require('../models/userModel');
 // Middleware to authenticate user using JWT
 exports.authenticate = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-console.log('authHeader',req.headers);
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: 'Authentication required' });
@@ -24,7 +23,6 @@ console.log('authHeader',req.headers);
         }
 
         req.user = user;
-        console.log(user);
 
         next();
     } catch (err) {
@@ -34,7 +32,6 @@ console.log('authHeader',req.headers);
 
 exports.authorizeRoles = (allowedRoles) => {
     return (req, res, next) => {
-        console.log(req.user);
 
         if (!req.user && allowedRoles !== req.user.role) {
             return res.status(403).json({ message: 'Access denied: Insufficient permissions' });
